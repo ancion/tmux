@@ -5,7 +5,8 @@ run_segment() {
 	sleeptime="0.5"
 	if shell_is_osx; then
 		iface="en0"
-		type="⎆" # "☫" for wlan
+        # ⎆爵
+		type="" # "☫" for wlan
 		RXB=$(netstat -i -b | grep -m 1 $iface | awk '{print $7}')
 		TXB=$(netstat -i -b | grep -m 1 $iface | awk '{print $10}')
 		sleep "$sleeptime"
@@ -13,7 +14,7 @@ run_segment() {
 		TXBN=$(netstat -i -b | grep -m 1 $iface | awk '{print $10}')
 	else
 		iface=$(/bin/cat /proc/net/dev | /usr/bin/awk '{if($2>0 && NR > 2) print substr($1, 0, index($1, ":") - 1)}' | /bin/sed '/^lo$/d')
-		type="⎆" # "☫" for wlan
+		type="" # "☫" for wlan
 		RXB=$(</sys/class/net/"$iface"/statistics/rx_bytes)
 		TXB=$(</sys/class/net/"$iface"/statistics/tx_bytes)
 		sleep "$sleeptime"
@@ -25,18 +26,18 @@ run_segment() {
 
 	if [ $RXDIF -gt 1024 ]; then
 		RXDIF=$(echo "scale=1;${RXDIF} / 1024" | bc)
-		RXDIF_UNIT="M/s"
+		RXDIF_UNIT="M"
 	else
-		RXDIF_UNIT="K/s"
+		RXDIF_UNIT="K"
 	fi
 	if [ $TXDIF -gt 1024 ]; then
 		TXDIF=$(echo "scale=1;${TXDIF} / 1024" | bc)
-		TXDIF_UNIT="M/s"
+		TXDIF_UNIT="M"
 	else
-		TXDIF_UNIT="K/s"
+		TXDIF_UNIT="K"
 	fi
 
 	# NOTE: '%5.01' for fixed length always
-	printf "${type} ⇊ %5.01f${RXDIF_UNIT} ⇈ %5.01f${TXDIF_UNIT}"  ${RXDIF} ${TXDIF}
+	printf "${type}%5.01f${RXDIF_UNIT} ⬇ %5.01f${TXDIF_UNIT} ⬆" ${RXDIF} ${TXDIF}
 	return 0
 }
