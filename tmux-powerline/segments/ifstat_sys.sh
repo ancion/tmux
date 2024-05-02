@@ -40,6 +40,6 @@ run_segment() {
 
 	# NOTE: '%5.01' for fixed length always
 	# printf "${type}%5.01f${RXDIF_UNIT} ⬇ %5.01f${TXDIF_UNIT} ⬆" ${RXDIF} ${TXDIF}
-	printf "${type}%6.01f${RXDIF_UNIT} 󰠽%5.01f${TXDIF_UNIT}" ${RXDIF} ${TXDIF}
+	printf "%3.01f${RXDIF_UNIT} |%4.01f${TXDIF_UNIT}" ${RXDIF} ${TXDIF}
 	return 0
 }
